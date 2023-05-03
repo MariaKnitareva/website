@@ -17,15 +17,52 @@
             <input type="text" name="word" placeholder="Введите слово" class="form-control">
             <button id="get-length-button" type="submit" class="btn btn-success">Узнать длину слова</button>
         </form>
-        <div class="container mt-5">
+        <div class="container mt-5 mb-5">
             <p th:text="${length}">
         </div>
         <form id ="info-form" action="/booking" method="get">
-            <input type="text" name="count" placeholder="Введите необходимое количество запросов" class="form-control">
+            <input type="number" min="0" max="2000000" name="count" placeholder="Введите необходимое количество запросов" class="form-control">
             <button id="get-info-button" type="submit" class="btn btn-success">Узнать информацию о запросах</button>
         </form>
-        <div class="container mt-5">
-            <p th:text="${length}">
+        <div class="container-fluid mt-5">
+            <div class="row align-items-md-stretch justify-content-md-center">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="el : ${calls}">
+                        <tr>
+                            <th th:text="${el.id}"></th>
+                            <th th:text="${el.url}"></th>
+                            <th th:text="${el.created_dt}"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Input</th>
+                            <th scope="col">Output</th>
+                            <th scope="col">Error message</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="el : ${callsData}">
+                        <tr>
+                            <th th:text="${el.input_data}"></th>
+                            <th th:text="${el.output_data}"></th>
+                            <th th:text="${el.error_message}"></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <footer th:insert="blocks/footer :: footer"></footer>

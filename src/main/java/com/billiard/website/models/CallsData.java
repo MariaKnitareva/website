@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class CallsData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String input_data;
     private String output_data;

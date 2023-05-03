@@ -1,6 +1,5 @@
 package com.billiard.website.models;
 
-import com.billiard.website.repo.CallsRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Calls {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
     private LocalDateTime created_dt;
