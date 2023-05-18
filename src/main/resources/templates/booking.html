@@ -8,63 +8,71 @@
 </head>
 <body>
     <header th:insert="blocks/header :: header"></header>
-    <div class="container text-center">
-        <p>Скоро здесь будет раздел с бронированием!!!</p>
-        <p>А пока:</p>
+    <div class="container text-center mb-5">
+        <h5 class="text-success">Вы можете забронировать стол по телефону:</h5>
+            <a href="+7706425569" class="text-decoration-success text-success">
+                <span class="elementor-icon-list-text">+7 (706) 425-05-69</span>
+            </a>
     </div>
-    <div class="container mt-5 mb-5">
-        <form id ="word-form" action="/booking" method="get">
-            <input type="text" name="word" placeholder="Введите слово" class="form-control">
-            <button id="get-length-button" type="submit" class="btn btn-success">Узнать длину слова</button>
+    <div class="container text-center mx-auto" style="width: 200px;">
+        <h5 class="text-success">Или онлайн:</h5>
+        <form id ="info-form" action="/booking" method="post">
+            <label for="table">Выберите стол</label>
+            <select name="table_id" required id="table" class="form-select mb-3" aria-label=".form-select-lg example">
+                <option selected value="0">Любой</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <label for="date">Выберите дату</label>
+            <input type="date" id="date" required name="date" th:min="${booking_start}" th:max="${booking_end}" placeholder="Дата" class="form-control mb-3">
+            <label for="time">Выберите время</label>
+            <input type="time" id="time" required name="time" min="" class="form-control mb-3" step="1800">
+            <label for="duration">Сколько часов планируете играть?</label>
+            <input type="number" id="duration" required name="duration" min="0.5" max="3" class="form-control mb-3" step="0.5">
+            <label for="name">Введите имя</label>
+            <input type="text" id="name" required name="name" class="form-control mb-3" maxlength="30">
+            <label for="phone_number">Номер телефона</label>
+            <input type="tel" id="phone_number" required name="phone_number" autofocus="autofocus" placeholder="+79123456789" class="form-control mb-3" maxlength="12" minlength="12">
+            <button id="get-info-button" type="submit" class="btn btn-success">Забронировать</button>
         </form>
-        <div class="container mt-5 mb-5">
-            <p th:text="${length}">
+        <div class="container text-center mx-auto" style="width: 200px;">
+            <output th:text="${answer}"></output>
         </div>
-        <form id ="info-form" action="/booking" method="get">
-            <input type="number" min="0" max="2000000" name="count" placeholder="Введите необходимое количество запросов" class="form-control">
-            <button id="get-info-button" type="submit" class="btn btn-success">Узнать информацию о запросах</button>
-        </form>
-        <div class="container-fluid mt-5">
-            <div class="row align-items-md-stretch justify-content-md-center">
-                <div class="col">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">URL</th>
-                            <th scope="col">Date</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="el : ${calls}">
-                        <tr>
-                            <th th:text="${el.id}"></th>
-                            <th th:text="${el.url}"></th>
-                            <th th:text="${el.created_dt}"></th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Input</th>
-                            <th scope="col">Output</th>
-                            <th scope="col">Error message</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="el : ${callsData}">
-                        <tr>
-                            <th th:text="${el.input_data}"></th>
-                            <th th:text="${el.output_data}"></th>
-                            <th th:text="${el.error_message}"></th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <script>
+            var dateInput = document.getElementById('date');
+            var timeInput = document.getElementById('time');
+            dateInput.addEventListener('change', function() {
+                var selectedDate = new Date(this.value);
+                var currentDate = new Date();
+                if (selectedDate.toDateString() === currentDate.toDateString()) {
+                    var currentMinutes = currentDate.getMinutes();
+                    var roundedMinutes = Math.ceil(currentMinutes / 30) * 30;
+                    if (roundedMinutes === 60) {
+                        currentDate.setHours(currentDate.getHours() + 1);
+                        roundedMinutes = 0;
+                    }
+                    var currentHours = ('0' + currentDate.getHours()).slice(-2);
+                    var currentTime = currentHours + ':' + ('0' + roundedMinutes).slice(-2);
+                    timeInput.min = currentTime;
+                } else {
+                    timeInput.min = '';
+                }
+            });
+        </script>
+        <script>
+            var hours = document.getElementById('hours');
+            hours.addEventListener('change', function() {
+                if (this.value > 3) {
+                    alert("Бронирование больше, чем на 3 часа, осуществляется только по телефону!");
+                }
+            });
+        </script>
     </div>
     <footer th:insert="blocks/footer :: footer"></footer>
 </body>
 </html>
+
