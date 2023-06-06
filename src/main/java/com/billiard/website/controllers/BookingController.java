@@ -1,6 +1,7 @@
 package com.billiard.website.controllers;
 
 import com.billiard.website.models.Reservation;
+import com.billiard.website.models.TableStatus;
 import com.billiard.website.repo.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +23,6 @@ public class BookingController {
     @Autowired
     private ReservationRepository reservationRepository;
     private static String success = "Ваш стол успешно зарезервирован!";
-    private static String not_success_specific_table = "К сожалению выбронный вами стол уже забронирован";
     private static String not_success_any_table = "К сожалению на данное время все столы уже забронированы";
 
     @GetMapping("/booking")
@@ -55,20 +56,29 @@ public class BookingController {
             reservation.setTable_id(table_id);
             if (canBeBooked(reservation)) {
                 answer = success;
-                reservation.setTable_status("reserved");
+                reservation.setTable_status(TableStatus.RESERVED.getTitle());
             } else {
-                answer = not_success_specific_table;
-                reservation.setTable_status("not success");
+                List<Integer> ids = findFreeTable(reservation);
+                if (ids.size() > 0) {
+                    StringBuilder result = new StringBuilder("К сожалению выбранный вами стол уже занят, зато свободны столы: ");
+                    for(Integer id: ids) {
+                        result.append(id + ", ");
+                    }
+                    answer = result.substring(0, result.length() - 2).toString();
+                } else {
+                    answer = not_success_any_table;
+                }
+                reservation.setTable_status(TableStatus.NOT_SUCCESS.getTitle());
             }
         } else {
-            int id = findFreeTable(reservation);
-            if (id > 0) {
+            List<Integer> ids = findFreeTable(reservation);
+            if (ids.size() > 0) {
                 answer = success;
-                reservation.setTable_status("reserved");
-                reservation.setTable_id(id);
+                reservation.setTable_status(TableStatus.RESERVED.getTitle());
+                reservation.setTable_id(ids.get(0));
             } else {
                 answer = not_success_any_table;
-                reservation.setTable_status("not success");
+                reservation.setTable_status(TableStatus.NOT_SUCCESS.getTitle());
             }
         }
         reservationRepository.save(reservation);
@@ -84,8 +94,8 @@ public class BookingController {
         }
         return false;
     }
-    public int findFreeTable(Reservation reservation) {
-        int id = 0;
+    public List<Integer> findFreeTable(Reservation reservation) {
+        List<Integer> freeId = new ArrayList<>();
         List<Reservation> reservations =  reservationRepository.findReservedTable(reservation.getDt_from(),
                                                                                   reservation.getDt_to());
         Set<Integer> ids = new HashSet<>();
@@ -94,11 +104,11 @@ public class BookingController {
         }
         for (int i = 1; i <= 6; i++) {
             if (!ids.contains(i)) {
-                id = i;
+                freeId.add(i);
                 break;
             }
         }
-        return id;
+        return freeId;
     }
 
 }

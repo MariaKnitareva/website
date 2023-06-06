@@ -8,41 +8,37 @@
 </head>
 <body>
     <header th:insert="blocks/header :: header"></header>
-    <div class="container text-center mb-5">
-        <h5 class="text-success">Вы можете забронировать стол по телефону:</h5>
-            <a href="+7706425569" class="text-decoration-success text-success">
-                <span class="elementor-icon-list-text">+7 (706) 425-05-69</span>
-            </a>
-    </div>
-    <div class="container text-center mx-auto" style="width: 200px;">
-        <h5 class="text-success">Или онлайн:</h5>
-        <form id ="info-form" action="/booking" method="post">
-            <label for="table">Выберите стол</label>
-            <select name="table_id" required id="table" class="form-select mb-3" aria-label=".form-select-lg example">
-                <option selected value="0">Любой</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
-            <label for="date">Выберите дату</label>
-            <input type="date" id="date" required name="date" th:min="${booking_start}" th:max="${booking_end}" placeholder="Дата" class="form-control mb-3">
-            <label for="time">Выберите время</label>
-            <input type="time" id="time" required name="time" min="" class="form-control mb-3" step="1800">
-            <label for="duration">Сколько часов планируете играть?</label>
-            <input type="number" id="duration" required name="duration" min="0.5" max="3" class="form-control mb-3" step="0.5">
-            <label for="name">Введите имя</label>
-            <input type="text" id="name" required name="name" class="form-control mb-3" maxlength="30">
-            <label for="phone_number">Номер телефона</label>
-            <input type="tel" id="phone_number" required name="phone_number" autofocus="autofocus" placeholder="+79123456789" class="form-control mb-3" maxlength="12" minlength="12">
-            <button id="get-info-button" type="submit" class="btn btn-success">Забронировать</button>
-        </form>
-        <div class="container text-center mx-auto" style="width: 200px;">
-            <output th:text="${answer}"></output>
+    <div class="row">
+        <div class="col-lg text-center px-5">
+            <h5 class="text-success">Вы можете забронировать стол по телефону или онлайн:</h5>
+            <form id ="info-form" action="/booking" method="post">
+                <label for="table">Выберите стол</label>
+                <select name="table_id" required id="table" class="form-select mb-3" aria-label=".form-select-lg example">
+                    <option selected value="0">Любой</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <label for="date">Выберите дату</label>
+                <input type="date" id="date" required name="date" th:min="${booking_start}" th:max="${booking_end}" placeholder="Дата" class="form-control mb-3">
+                <label for="time">Выберите время</label>
+                <input type="time" id="time" required name="time" min="" class="form-control mb-3" step="1800">
+                <label for="duration">Сколько часов планируете играть?</label>
+                <input type="number" id="duration" required name="duration" min="0.5" max="3" class="form-control mb-3" step="0.5">
+                <label for="name">Введите имя</label>
+                <input type="text" id="name" required name="name" class="form-control mb-3" maxlength="30">
+                <label for="phone_number">Номер телефона</label>
+                <input type="tel" id="phone_number" required name="phone_number" autofocus="autofocus" placeholder="+79123456789" class="form-control mb-3" maxlength="12" minlength="12">
+                <button id="get-info-button" type="submit" class="btn btn-success">Забронировать</button>
+            </form>
+            <div class="container text-center">
+                <output th:text="${answer}"></output>
+            </div>
         </div>
-        <script>
+            <script>
             var dateInput = document.getElementById('date');
             var timeInput = document.getElementById('time');
             dateInput.addEventListener('change', function() {
@@ -63,7 +59,7 @@
                 }
             });
         </script>
-        <script>
+            <script>
             var hours = document.getElementById('hours');
             hours.addEventListener('change', function() {
                 if (this.value > 3) {
@@ -71,6 +67,9 @@
                 }
             });
         </script>
+        <div class="col-lg text-center px-5">
+            <img class="img-fluid p-3" src="https://img.birthday-place.ru/C3tU39ELvMIYZvvU9u-t1pni9_PoUsZkF42VfVMWEMxdMbIMDYVpMzIBhF4mb2WCAzzQWAYvzV6laHEiRb3Qcor7XMkT69Gqv_BecVc=w746-h498-l95">
+        </div>
     </div>
     <footer th:insert="blocks/footer :: footer"></footer>
 </body>
