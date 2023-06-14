@@ -40,5 +40,9 @@ public class MainController {
         model.addAttribute("title", "Контактная информация");
         return "contacts";
     }
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
 
 }

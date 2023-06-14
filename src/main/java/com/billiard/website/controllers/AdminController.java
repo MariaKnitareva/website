@@ -98,5 +98,4 @@ public class AdminController {
         reservationRepository.deleteById(id);
         return "redirect:/admin/booking";
     }
-
 }

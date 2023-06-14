@@ -23,22 +23,22 @@
                     <option value="6">6</option>
                 </select>
                 <label for="date">Выберите дату</label>
-                <input type="date" id="date" required name="date" th:min="${booking_start}" th:max="${booking_end}" placeholder="Дата" class="form-control mb-3">
+                <input type="date" id="date" required name="date" value="${booking_start}" placeholder="${booking_start}" th:min="${booking_start}" th:max="${booking_end}" class="form-control mb-3">
                 <label for="time">Выберите время</label>
                 <input type="time" id="time" required name="time" min="" class="form-control mb-3" step="1800">
                 <label for="duration">Сколько часов планируете играть?</label>
                 <input type="number" id="duration" required name="duration" min="0.5" max="3" class="form-control mb-3" step="0.5">
                 <label for="name">Введите имя</label>
                 <input type="text" id="name" required name="name" class="form-control mb-3" maxlength="30">
-                <label for="phone_number">Номер телефона</label>
-                <input type="tel" id="phone_number" required name="phone_number" autofocus="autofocus" placeholder="+79123456789" class="form-control mb-3" maxlength="12" minlength="12">
+                <label for="phone_number">Номер телефона (89223362515) </label>
+                <input type="tel" id="phone_number" required name="phone_number" pattern="89[0-9]{9}" placeholder="89123456789" class="form-control mb-3" maxlength="11" minlength="11">
                 <button id="get-info-button" type="submit" class="btn btn-success">Забронировать</button>
             </form>
             <div class="container text-center">
                 <output th:text="${answer}"></output>
             </div>
         </div>
-            <script>
+        <script>
             var dateInput = document.getElementById('date');
             var timeInput = document.getElementById('time');
             dateInput.addEventListener('change', function() {
@@ -59,7 +59,7 @@
                 }
             });
         </script>
-            <script>
+        <script>
             var hours = document.getElementById('hours');
             hours.addEventListener('change', function() {
                 if (this.value > 3) {
