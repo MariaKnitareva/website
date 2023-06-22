@@ -19,11 +19,12 @@ public class Promotion {
 
     public Promotion() {
     }
-    public Promotion(String name, String type, String content, LocalDate start) {
+    public Promotion(String name, String type, String content, LocalDate start, String imgURL) {
         this.name = name;
         this.type = type;
         this.content = content;
         this.start = start;
+        this.imgURL = imgURL;
     }
 
     public Long getId() {

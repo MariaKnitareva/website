@@ -44,5 +44,10 @@ public class MainController {
     public String login(Model model) {
         return "login";
     }
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("title", "Страница администратора");
+        return "admin";
+    }
 
 }

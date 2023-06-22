@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-lg text-center px-5">
             <h5 class="text-success">Вы можете забронировать стол по телефону или онлайн:</h5>
-            <form id ="info-form" action="/booking" method="post">
+            <form action="/booking" method="post">
                 <label for="table">Выберите стол</label>
                 <select name="table_id" required id="table" class="form-select mb-3" aria-label=".form-select-lg example">
                     <option selected value="0">Любой</option>
@@ -32,7 +32,7 @@
                 <input type="text" id="name" required name="name" class="form-control mb-3" maxlength="30">
                 <label for="phone_number">Номер телефона (89223362515) </label>
                 <input type="tel" id="phone_number" required name="phone_number" pattern="89[0-9]{9}" placeholder="89123456789" class="form-control mb-3" maxlength="11" minlength="11">
-                <button id="get-info-button" type="submit" class="btn btn-success">Забронировать</button>
+                <button type="submit" class="btn btn-success">Забронировать</button>
             </form>
             <div class="container text-center">
                 <output th:text="${answer}"></output>
